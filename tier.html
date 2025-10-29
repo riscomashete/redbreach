@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Plans</title>
+  <style>
+    :root {
+      --main-red: red;
+      --dark-gray: #222;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; scroll-behavior:smooth; }
+    body { font-family: Arial, sans-serif; background: #f8f9fa; color: var(--dark-gray); }
+
+  /* Navbar */
+  nav {
+    position: sticky; top:0; width:100%; background:#fff; display:flex; justify-content:space-between; align-items:center; padding:15px 50px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1); z-index:1000;
+  }
+  nav .logo { font-weight:700; font-size:1.5rem; color:var(--main-red); }
+  nav ul { display:flex; gap:25px; list-style:none; }
+  nav ul li a { text-decoration:none; color:var(--dark-gray); font-weight:600; transition:0.3s; }
+  nav ul li a:hover { color:var(--main-red); }
+
+  /* Hamburger Menu */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 1100;
+  }
+  .hamburger div {
+    width: 100%;
+    height: 3px;
+    background: var(--main-red);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .hamburger.active div:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active div:nth-child(2) { opacity: 0; }
+  .hamburger.active div:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* Responsive Navbar */
+  @media (max-width: 992px) {
+    nav ul {
+      position: absolute;
+      top: 80px;
+      right: 0;
+      background: #fff;
+      flex-direction: column;
+      width: 200px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: none;
+    }
+    nav ul.active { display: flex; }
+    nav ul li { margin: 10px 0; }
+    .hamburger { display: flex; }
+  }
+
+    /* Pricing Section */
+    .pricing-section {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .pricing-section h1 { font-size: 2.5em; margin-bottom: 10px; color: var(--dark-gray); }
+    .pricing-section p { font-size: 1.1em; color: #555; margin-bottom: 20px; }
+
+    /* Currency switcher */
+    .currency-switcher { margin-bottom: 30px; }
+    .currency-switcher button {
+      padding: 10px 20px; margin: 0 5px; border: none; border-radius: 30px;
+      cursor: pointer; font-weight: bold; background: #e9ecef; transition: background 0.3s;
+    }
+    .currency-switcher button.active { background: var(--main-red); color: #fff; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 12px 25px;
+      margin: 5px;
+      border-radius: 30px;
+      background: #e9ecef;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .tab.active { background: var(--main-red); color: #fff; }
+
+    /* Pricing Grid */
+    .pricing-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .plan {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 30px 20px;
+      transition: transform 0.3s;
+    }
+    .plan:hover { transform: translateY(-8px); }
+    .plan h2 { font-size: 1.6em; margin-bottom: 10px; color: var(--dark-gray); }
+    .price { font-size: 1.8em; margin: 10px 0; color: var(--main-red); font-weight: bold; }
+    .plan ul { list-style: none; padding: 0; margin: 20px 0; text-align: left; }
+    .plan ul li { margin: 8px 0; padding-left: 20px; position: relative; }
+    .plan ul li::before { content: "✔"; position: absolute; left: 0; color: var(--main-red); }
+    .btn {
+      display: inline-block; padding: 12px 25px; border-radius: 30px;
+      background: var(--main-red); color: white; text-decoration: none;
+      font-weight: bold; transition: background 0.3s;
+    }
+    .btn:hover { background: #c5303f; }
+
+    .highlight { border: 2px solid var(--main-red); transform: scale(1.05); }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <div class="logo"><img src="./assets/logo.png" alt="logo" height="60"></div>
+  <div class="hamburger" onclick="toggleMenu(this)">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ul id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="tier.html">Pricing</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="pricing-section">
+  <h1>Our Pricing Plans</h1>
+  <p>Choose the package that fits your business best</p>
+
+  <!-- Currency Switcher -->
+  <div class="currency-switcher">
+    <button class="active" onclick="switchCurrency('N$')">NAD</button>
+    <button onclick="switchCurrency('USD')">USD</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab" onclick="showTab('cyber')">Cybersecurity</div>
+    <div class="tab" onclick="showTab('webdev')">Web Development</div>
+    <div class="tab" onclick="showTab('addons')">Add-ons</div>
+  </div>
+
+  <!-- Cybersecurity Plans -->
+  <div id="cyber" class="tab-content">
+    <div class="pricing-container">
+      <div class="plan">
+        <h2>Starter</h2>
+        <p class="price" data-nad="500">N$500 / mo</p>
+        <ul>
+          <li>1 Scan + Basic Report</li>
+          <li>Email Support</li>
+        </ul>
+        <a href="#" class="btn">Get Started</a>
+      </div>
+      <div class="plan highlight">
+        <h2>Pro</h2>
+        <p class="price" data-nad="1500">N$1,500 / mo</p>
+        <ul>
+          <li>Monthly Pentest</li>
+          <li>Risk Dashboard</li>
+          <li>1 Coaching Call</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+      <div class="plan">
+        <h2>Elite</h2>
+        <p class="price" data-nad="4000">N$4,000 / mo</p>
+        <ul>
+          <li>Full Security Audit</li>
+          <li>Team Training</li>
+          <li>Incident Response Hotline</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+      <div class="plan">
+        <h2>Custom</h2>
+        <p class="price" data-nad="8000">From N$8,000</p>
+        <ul>
+          <li>Tailored Solutions</li>
+          <li>Banks, Schools, NGOs</li>
+          <li>Custom Security Strategy</li>
+        </ul>
+        <a href="#" class="btn">Request Quote</a>
+      </div>
+            <div class="plan">
+        <h2>Vulnerability Assessment (VA)</h2>
+        <p class="price" data-nad="4000">N$4,000 / mo</p>
+        <ul>
+          <li>Monthly system scans</li>
+          <li>Vulnerability report + recommendations</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+            <div class="plan">
+        <h2>Penetration Testing (PT)</h2>
+        <p class="price" data-nad="6000">N$6,000 / mo</p>
+        <ul>
+          <li>Ethical hacking of IT systems</li>
+          <li>Exploit testing & prioritized report</li>
+          <li>Expert advice</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+            <div class="plan">
+        <h2>Phishing Simulation & Staff Training</h2>
+        <p class="price" data-nad="3500">N$3,500 / mo</p>
+        <ul>
+          <li>Monthly phishing campaigns</li>
+          <li>Employee awareness training</li>
+          <li>Reports + improvement tips</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+      <div class="plan">
+        <h2>Red Teaming</h2>
+        <p class="price" data-nad="10000">From N$10,000</p>
+        <ul>
+          <li>Full-scope adversarial simulation</li>
+          <li>Test real-world detection and incident response capabilities</li>
+          <li>Tailored attack scenarios for your organization</li>
+          <li>Final debrief with security roadmap</li>
+        </ul>
+        <a href="#" class="btn">Request Quote</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Web Development Plans -->
+  <div id="webdev" class="tab-content">
+    <div class="pricing-container">
+      <div class="plan">
+        <h2>Code Care</h2>
+        <p class="price" data-nad="600">N$600 / mo</p>
+        <ul>
+          <li>Maintenance & Updates</li>
+          <li>Bug Fixes</li>
+          <li>Backups</li>
+        </ul>
+        <a href="#" class="btn">Get Started</a>
+      </div>
+      <div class="plan highlight">
+        <h2>Dev Boost</h2>
+        <p class="price" data-nad="1500">N$1,500 / mo</p>
+        <ul>
+          <li>Code Improvements</li>
+          <li>SEO Tweaks</li>
+          <li>Performance Tuning</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+      <div class="plan">
+        <h2>Secure Dev Pro</h2>
+        <p class="price" data-nad="3000">N$3,000 / mo</p>
+        <ul>
+          <li>Full Maintenance</li>
+          <li>Quarterly Security Audit</li>
+          <li>Custom Features</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+      <div class="plan">
+        <h2>Custom Build</h2>
+        <p class="price" data-nad="7500">From N$7,500</p>
+        <ul>
+          <li>Tailored Website</li>
+          <li>HTML/CSS/JS/PHP</li>
+          <li>Built to Client Needs</li>
+        </ul>
+        <a href="#" class="btn">Request Quote</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add-ons -->
+  <div id="addons" class="tab-content">
+    <div class="pricing-container">
+      <div class="plan">
+        <h2>Landing Page</h2>
+        <p class="price" data-nad="2500">N$2,500</p>
+        <ul>
+          <li>Custom-coded design</li>
+          <li>Responsive layout</li>
+          <li>Conversion focused</li>
+        </ul>
+        <a href="#" class="btn">Order Now</a>
+      </div>
+      <div class="plan highlight">
+        <h2>E-commerce Integration</h2>
+        <p class="price" data-nad="5000">From N$5,000</p>
+        <ul>
+          <li>Shopping cart</li>
+          <li>Payment gateway setup</li>
+          <li>Product catalog</li>
+        </ul>
+        <a href="#" class="btn">Get Quote</a>
+      </div>
+      <div class="plan">
+        <h2>Security Hardening</h2>
+        <p class="price" data-nad="2000">N$2,000</p>
+        <ul>
+          <li>Patch vulnerabilities</li>
+          <li>Configure firewall</li>
+          <li>Strengthen authentication</li>
+        </ul>
+        <a href="#" class="btn">Secure My Site</a>
+      </div>
+      <div class="plan">
+        <h2>Speed Optimization</h2>
+        <p class="price" data-nad="1200">N$1,200</p>
+        <ul>
+          <li>Faster load times</li>
+          <li>Image & code optimization</li>
+          <li>Better performance score</li>
+        </ul>
+        <a href="#" class="btn">Boost Speed</a>
+      </div>
+      <div class="plan">
+        <h2>CMS Integration</h2>
+        <p class="price" data-nad="2500">N$2,500</p>
+        <ul>
+          <li>WordPress or CMS setup</li>
+          <li>Theme & plugin integration</li>
+          <li>Custom configuration</li>
+        </ul>
+        <a href="#" class="btn">Request Quote</a>
+      </div>
+      <div class="plan">
+        <h2>Dark Web & Credential Monitoring</h2>
+        <p class="price" data-nad="1500">N$1,500</p>
+        <ul>
+          <li>Monitor leaks of company or employee credentials</li>
+          <li>Immediate alerts if data is found</li>
+          <li>Monthly summary reports</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+      <div class="plan">
+        <h2>Monthly Hosting & Management</h2>
+        <p class="price" data-nad="1200">N$1,200</p>
+        <ul>
+          <li>Secure web hosting with SSL</li>
+          <li>Daily backups & updates</li>
+          <li>Custom configuration</li>
+          <li>Technical Support included</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+      <div class="plan">
+        <h2>Website Exposure Monitoring</h2>
+        <p class="price" data-nad="2500">N$2,500</p>
+        <ul>
+          <li>Continuous monitoring for:
+            <ul>
+              <li>Open ports</li>
+              <li>Weak SSL/TLS</li>
+              <li>Exposed admin panels</li>
+              <li>Outdated plugins/themes</li>
+            </ul>
+          </li>
+        </ul>
+        <a href="#" class="btn">Request Quote</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  const conversionRate = 0.056; // 1 NAD = 0.056 USD
+  let currentCurrency = 'N$';
+
+  function switchCurrency(currency) {
+    currentCurrency = currency;
+    localStorage.setItem('preferredCurrency', currency);
+    document.querySelectorAll('.currency-switcher button').forEach(btn => {
+      btn.classList.toggle('active', (currency==='N$' && btn.textContent==='NAD') || (currency==='USD' && btn.textContent==='USD'));
+    });
+    document.querySelectorAll('.price').forEach(priceEl => {
+      const nadValue = parseFloat(priceEl.dataset.nad);
+      const isFrom = priceEl.textContent.trim().startsWith('From');
+      let formattedPrice = currency==='USD' ? `$${(nadValue*conversionRate).toFixed(2)}` : `N$${nadValue.toLocaleString()}`;
+      priceEl.textContent = isFrom ? `From ${formattedPrice}` : `${formattedPrice} / mo`;
+    });
+  }
+
+  function showTab(tabId) {
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+    localStorage.setItem('preferredTab', tabId);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedTab = localStorage.getItem('preferredTab');
+    if(savedTab && document.getElementById(savedTab)) showTab(savedTab); 
+    else showTab('cyber');
+    const savedCurrency = localStorage.getItem('preferredCurrency');
+    if(savedCurrency) switchCurrency(savedCurrency);
+  });
+
+    function toggleMenu(hamburger) {
+    const navLinks = document.getElementById('nav-links');
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

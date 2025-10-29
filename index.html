@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyBug - Cybersecurity & Web Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --main-red: red;
+    --dark-gray: #222;
+    --light-gray: #f9f9f9;
+    --blue: #4361ee;
+    --green: #06d6a0;
+    --orange: #ff9f1c;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; scroll-behavior:smooth; }
+  body { font-family:'Poppins', sans-serif; color:var(--dark-gray); line-height:1.6; }
+
+  /* Navbar */
+  nav {
+    position: sticky; top:0; width:100%; background:#fff; display:flex; justify-content:space-between; align-items:center; padding:15px 50px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1); z-index:1000;
+  }
+  nav .logo { font-weight:700; font-size:1.5rem; color:var(--main-red); }
+  nav ul { display:flex; gap:25px; list-style:none; }
+  nav ul li a { text-decoration:none; color:var(--dark-gray); font-weight:600; transition:0.3s; }
+  nav ul li a:hover { color:var(--main-red); }
+
+  /* Hamburger Menu */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 1100;
+  }
+  .hamburger div {
+    width: 100%;
+    height: 3px;
+    background: var(--main-red);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .hamburger.active div:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active div:nth-child(2) { opacity: 0; }
+  .hamburger.active div:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* Responsive Navbar */
+  @media (max-width: 992px) {
+    nav ul {
+      position: absolute;
+      top: 80px;
+      right: 0;
+      background: #fff;
+      flex-direction: column;
+      width: 200px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: none;
+    }
+    nav ul.active { display: flex; }
+    nav ul li { margin: 10px 0; }
+    .hamburger { display: flex; }
+  }
+
+  /* Hero */
+  header {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background: linear-gradient(135deg, var(--main-red) 0%, #ff6b6b 100%);
+    color:#fff;
+    padding:0 20px;
+    text-align:center;
+  }
+  .hero-content { display:flex; flex-direction:column; align-items:center; justify-content:center; max-width:800px; }
+  header h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom:20px; font-weight:700; color:#fff; }
+  header p { font-size:1.2rem; margin-bottom:30px; max-width:700px; color:#fff; }
+  .hero-btn { padding:15px 35px; background:#fff; color:var(--main-red); border-radius:50px; font-weight:700; text-decoration:none; transition:0.3s; }
+  .hero-btn:hover { background:#f1f1f1; transform:scale(1.05); }
+
+  /* Sections */
+  section { padding:80px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+  section h2 { font-size:2.2rem; color:var(--main-red); margin-bottom:10px; }
+  section p { color:#555; margin-bottom:50px; font-size:1rem; }
+
+  /* Services */
+  #services { background:#f9f9f9; }
+  .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; width:100%; max-width:1200px; margin:0 auto 30px; }
+  .service-card { background:#fff; border-radius:15px; box-shadow:0 10px 20px rgba(0,0,0,0.1); padding:30px 20px; text-align:center; transition: transform 0.4s, box-shadow 0.4s; }
+  .service-card:hover { transform:translateY(-10px); box-shadow:0 15px 25px rgba(0,0,0,0.15); }
+  .service-card img { width:80px; height:80px; object-fit:contain; margin-bottom:20px; }
+  .service-card h3 { color:var(--main-red); margin-bottom:15px; font-size:1.5rem; }
+  .service-card p { color:#555; font-size:1rem; }
+  .pricing-btn { display:inline-block; padding:12px 30px; background:var(--main-red); color:#fff; font-weight:700; border-radius:50px; text-decoration:none; transition:0.3s; }
+  .pricing-btn:hover { background:#c5303f; transform:scale(1.05); }
+
+  /* Contact Form */
+  #contact { background:#fff; }
+  form { max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:15px; }
+  input, textarea { padding:12px 15px; border-radius:8px; border:1px solid #ccc; font-size:1rem; width:100%; }
+  button { padding:15px; border:none; border-radius:50px; background:var(--main-red); color:#fff; font-weight:700; cursor:pointer; transition:0.3s; }
+  button:hover { background:#c5303f; transform:scale(1.02); }
+
+  /* Footer */
+  footer { background:#222; color:#fff; text-align:center; padding:30px 20px; margin-top:0; font-size:0.9rem; display:flex; flex-direction:column; align-items:center; gap:15px; }
+  .newsletter-inline { display:flex; gap:5px; max-width:400px; width:100%; }
+  .newsletter-inline input { flex:1; padding:10px 15px; border-radius:50px 0 0 50px; border:1px solid #ccc; border-right:none; font-size:0.95rem; }
+  .newsletter-inline button { padding:10px 20px; border:none; border-radius:0 50px 50px 0; background:var(--main-red); color:#fff; font-weight:700; cursor:pointer; transition:0.3s; }
+  .newsletter-inline button:hover { background:#c5303f; }
+
+  /* Animations */
+  .fade-in { opacity:0; transform:translateY(30px); animation:fadeInUp 0.8s forwards; }
+  @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <div class="logo"><img src="./assets/logo.png" alt="logo" height="60"></div>
+  <div class="hamburger" onclick="toggleMenu(this)">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ul id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="tier.html">Pricing</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<header>
+  <div class="hero-content">
+    <h1 class="fade-in" style="animation-delay:0.2s;">Cybersecurity & Web Solutions</h1>
+    <p class="fade-in" style="animation-delay:0.4s;">Secure your business, enhance your web presence, and grow with confidence.</p>
+    <a href="#contact" class="hero-btn fade-in" style="animation-delay:0.6s;">Contact Us</a>
+  </div>
+</header>
+
+<!-- Services -->
+<section id="services">
+  <h2 class="fade-in" style="animation-delay:0.2s;">Our Services</h2>
+  <p class="fade-in" style="animation-delay:0.4s;">Solutions tailored to your business needs</p>
+  <div class="services-grid">
+    <div class="service-card fade-in" style="animation-delay:0.6s;">
+      <img src="https://img.icons8.com/ios-filled/100/4361ee/security-checked.png" alt="Cybersecurity">
+      <h3>Cybersecurity</h3>
+      <p>Scans, audits, penetration testing, and comprehensive security solutions for your business.</p>
+    </div>
+    <div class="service-card fade-in" style="animation-delay:0.8s;">
+      <img src="https://img.icons8.com/ios-filled/100/06d6a0/source-code.png" alt="Web Development">
+      <h3>Web Development</h3>
+      <p>Custom websites, maintenance, performance optimization, and secure development practices.</p>
+    </div>
+    <div class="service-card fade-in" style="animation-delay:1s;">
+      <img src="https://img.icons8.com/ios-filled/100/ff9f1c/plugin.png" alt="Add-ons & Integrations">
+      <h3>Add-ons & Integrations</h3>
+      <p>E-commerce setup, landing pages, CMS integrations, and performance & security enhancements.</p>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:20px;">
+    <a href="tier.html" class="pricing-btn fade-in" style="animation-delay:1.2s;">View Pricing</a>
+  </div>
+</section>
+
+<!-- Contact Form -->
+<section id="contact" class="fade-in" style="animation-delay:0.2s;">
+  <h2>Contact Us</h2>
+  <p>Send us a message and we will get back to you.</p>
+  <form action="mailto:contact@cybug.co" method="POST" enctype="text/plain">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- Footer with inline newsletter -->
+<footer>
+  <div>&copy; 2025 CyBug. All rights reserved.</div>
+  <div class="newsletter-inline">
+    <input type="email" placeholder="Enter your email" required>
+    <button type="submit">Subscribe</button>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu(hamburger) {
+    const navLinks = document.getElementById('nav-links');
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>
